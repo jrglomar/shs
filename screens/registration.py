@@ -1,7 +1,7 @@
 from tkinter import *
 
 
-class LoginWindow:
+class RegistrationWindow:
 
     def __init__(self):
         # create a tkinter window
@@ -62,13 +62,22 @@ class LoginWindow:
                           show = "*")
         passEntry.pack()
         Label(self.OptionFrame,
+              text="Re-type password",
+              bg = "gray17",
+              fg = "Snow",
+              font = ("Courier 10")).pack()
+        pass2Entry = Entry(self.OptionFrame,
+                          bg = "snow",
+                          show = "*")
+        pass2Entry.pack()
+        Label(self.OptionFrame,
               text = "",
               bg = "gray17",
               font = ("Courier 1")).pack()
         
         # LoginButton
         Button(self.OptionFrame,
-               text="Login",
+               text="Register",
                bg = "steel blue",
                fg = "snow",
                width = "8",
@@ -79,4 +88,4 @@ class LoginWindow:
         self.root.mainloop()
         
 if __name__ == "__main__":
-    x = LoginWindow()
+    x = RegistrationWindow()

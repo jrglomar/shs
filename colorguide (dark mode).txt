@@ -6,3 +6,4 @@ textfields = SlateGray2
 
 Font color: white
 Font color2: gray14
+Font: Helvetica

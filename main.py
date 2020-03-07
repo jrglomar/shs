@@ -1,5 +1,6 @@
 from tkinter import *
 from screens.login import *
+from screens.registration import *
 import mysql.connector
 
 class Screens:
@@ -26,9 +27,48 @@ class Screens:
 
         # === Images Used === #
         self.logo = PhotoImage(file = "images\logo.png")
-        
-        Button(self.root, image = self.logo, command = self.loginScreen).pack()
-    
+
+        # === Frames list === #
+        # LogoFrame
+        self.LogoFrame = Frame(self.root)
+        self.LogoFrame.place(x=405, y=75)
+        # OptionFrame
+        self.OptionFrame = Frame(self.root)
+        self.OptionFrame.place(x=370, y=340)
+        self.OptionFrame.configure(bg ="gray17")
+
+        # Showing Logo
+        Label(self.LogoFrame, image=self.logo, bg = "gray17").pack()
+
+        # Showing OptionFrame
+        Label(self.OptionFrame,
+              text="Welcome to Study Helper",
+              bg = "gray17",
+              fg = "SlateGray2",
+              height = "3",
+              font = ("Courier 18")).pack()
+        # Login Button
+        Button(self.OptionFrame,
+               text="Login",
+               bg = "steel blue",
+               fg = "snow",
+               width = "12",
+               font = ("Courier 12"),
+               command = self.loginScreen).pack()
+        Label(self.OptionFrame,
+              text = "",
+              bg = "gray17",
+              font = ("Courier 1")).pack()
+        # Register Button
+        Button(self.OptionFrame,
+               text="Register",
+               bg = "steel blue",
+               fg = "snow",
+               width = "12",
+               font = ("Courier 12"),
+               command = self.registrationScreen).pack()
+
+        # loop to run the tkinter
         self.root.mainloop()
         
     def loginScreen(self):
@@ -37,6 +77,13 @@ class Screens:
 
         #open the new window
         log = LoginWindow()
+
+    def registrationScreen(self):
+        # destroy current window
+        self.root.destroy()
+
+        #open the new window
+        reg = RegistrationWindow()
 
 
 if __name__ == "__main__":

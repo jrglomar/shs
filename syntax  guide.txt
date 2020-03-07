@@ -1,0 +1,2 @@
+FrameName = Frame(self.root)
+FrameName.place(x=400, y=150)
