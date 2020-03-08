@@ -1,4 +1,5 @@
 background = gray17
+secondary = gray20
 container/menu container = dark slate gray
 buttons = steel blue
 textfields = SlateGray2
