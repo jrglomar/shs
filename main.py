@@ -125,7 +125,7 @@ class Screens():
                         self.colorAlert.set('green')
                         self.transition.homeScreen()
                   else:
-                        self.loginAlert.set("Wrong username/password")
+                        self.logAlert.set("Wrong username/password")
                         
                    
 
@@ -249,7 +249,7 @@ class Screens():
             self.startPageOptionFrame()
             self.imageUsed()
             
-            self.loginAlert = StringVar()
+            self.logAlert = StringVar()
             self.colorAlert = StringVar()
             self.colorAlert.set('red')
 
@@ -278,7 +278,7 @@ class Screens():
             
             # Message Alert
             #Label(self.OptionFrame, textvariable=self.loginSuccess, bg = "gray17", font =(fontVar, "8")).pack()
-            Label(self.OptionFrame, textvariable=self.loginAlert, bg = "gray17", fg = self.colorAlert.get(), font = (fontVar, "8")).pack()  
+            Label(self.OptionFrame, textvariable=self.logAlert, bg = "gray17", fg = self.colorAlert.get(), font = (fontVar, "8")).pack()  
 
             # To Registration Window 
             Label(self.OptionFrame, "", bg = "gray17", width = 4).pack(side=LEFT)
