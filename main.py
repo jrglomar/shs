@@ -1,6 +1,7 @@
 from tkinter import *
 import mysql.connector
 from tkinter.scrolledtext import ScrolledText
+from db.database import *
 
 fontVar = "Calibri"
 
@@ -77,6 +78,58 @@ class Transitions():
 class Screens():
       def __init__(self):
             pass
+            
+      
+      def userRegistration(self):
+            
+            self.db = UserDb()
+            data = (self.regUserEntry.get(), self.regPassEntry.get())
+
+            if self.regUserEntry.get() == "":
+                  self.regAlert.set("Enter Username First")
+
+            elif self.regPassEntry.get() == "":
+                  self.regAlert.set("Alert!","Enter Password First")
+                  
+            elif self.regPass2Entry.get() == "":
+                  self.regAlert.set("Alert!","Enter Password First")
+                  
+            else:
+                  if(self.regPassEntry.get() == self.regPass2Entry.get()):  
+                        test = self.db.userRegistration(data, self.regUserEntry.get())
+                        if not test:
+                              self.regAlert.set("Registration Successfully")            
+                              self.colorAlert.set('green')
+                        else:
+                              self.regAlert.set("Username already exist")
+                              
+                  else:
+                        self.regAlert.set("Password do not match!")
+                        
+      
+      def userLogin(self):
+            self.transition = Transitions(self.root)
+            self.db = UserDb()
+            data = (self.logUserEntry.get(), self.logPassEntry.get())
+
+            if self.logUserEntry.get() == "":
+                  self.loginAlert.set("Enter Username First")
+                  
+            elif self.logPassEntry.get() == "":
+                  self.loginAlert.set("Enter Password First")
+                  
+            else:
+                  test = self.db.userLogin(data)
+                  if test:
+                        self.logAlert.set("Login Successfully")
+                        self.colorAlert.set('green')
+                        self.transition.homeScreen()
+                  else:
+                        self.loginAlert.set("Wrong username/password")
+                        
+                   
+
+
 
       # It calls all the images that can be used
       def imageUsed(self):
@@ -195,6 +248,10 @@ class Screens():
             self.startPageLogoFrame()
             self.startPageOptionFrame()
             self.imageUsed()
+            
+            self.loginAlert = StringVar()
+            self.colorAlert = StringVar()
+            self.colorAlert.set('red')
 
             # Showing Logo
             Label(self.LogoFrame, image=self.logo, bg = "gray17").pack()
@@ -207,24 +264,28 @@ class Screens():
 
             # Username Label and Entry
             Label(self.OptionFrame, text="Username", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
-            logUserEntry = Entry(self.OptionFrame, bg = "snow")
-            logUserEntry.pack()
+            self.logUserEntry = Entry(self.OptionFrame, bg = "snow")
+            self.logUserEntry.pack()
 
             # Password Label and Entry
             Label(self.OptionFrame, text="Password", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
-            logPassEntry = Entry(self.OptionFrame, bg = "snow", show = "*")
-            logPassEntry.pack()
+            self.logPassEntry = Entry(self.OptionFrame, bg = "snow", show = "*")
+            self.logPassEntry.pack()
             Label(self.OptionFrame, text = "", bg = "gray17", font = (fontVar,"1")).pack()
             
             # Login Button
-            Button(self.OptionFrame, text="Login", bg = "steel blue", fg = "snow", width = "8", font = (fontVar,"10"), command = self.transition.homeScreen).pack()
+            Button(self.OptionFrame, command = self.userLogin, text="Login", bg = "steel blue", fg = "snow", width = "8", font = (fontVar,"10")).pack()
             
+            # Message Alert
+            #Label(self.OptionFrame, textvariable=self.loginSuccess, bg = "gray17", font =(fontVar, "8")).pack()
+            Label(self.OptionFrame, textvariable=self.loginAlert, bg = "gray17", fg = self.colorAlert.get(), font = (fontVar, "8")).pack()  
+
             # To Registration Window 
             Label(self.OptionFrame, "", bg = "gray17", width = 4).pack(side=LEFT)
             Label(self.OptionFrame, text = "Don't have an account yet?", bg = "gray17", fg = "white", font = (fontVar,"8")).pack(side=LEFT)
             Button(self.OptionFrame, text="Click here", bg = "gray17", fg = "steel blue", relief = "flat", font = (fontVar,"8"), command = self.transition.registrationScreen).pack(side=LEFT)
 
-            self.root.mainloop()
+                      
       
       # Registration Page
       def registrationPage(self):
@@ -235,6 +296,11 @@ class Screens():
             self.startPageLogoFrame()
             self.startPageOptionFrame()
             self.imageUsed()
+
+            self.regAlert = StringVar()
+            self.colorAlert = StringVar()
+            self.colorAlert.set('red')
+            
             
             # Showing Logo
             Logo = Label(self.LogoFrame, image=self.logo, bg = "gray17")
@@ -250,28 +316,34 @@ class Screens():
 
             # Username Label and Entry
             Label(self.OptionFrame, text="Username", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
-            regUserEntry = Entry(self.OptionFrame, bg = "snow")
-            regUserEntry.pack()
+            self.regUserEntry = Entry(self.OptionFrame, bg = "snow")
+            self.regUserEntry.pack()
 
             # Password Label and Entry
             Label(self.OptionFrame, text="Password", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
-            regPassEntry = Entry(self.OptionFrame, bg = "snow", show = "*")
-            regPassEntry.pack()
-            Label(self.OptionFrame, text = "", bg = "gray17", font = (fontVar,"1")).pack()
+            self.regPassEntry = Entry(self.OptionFrame, bg = "snow", show = "*")
+            self.regPassEntry.pack()
 
             # Password 2 Label and Entry
             Label(self.OptionFrame, text="Re-type password", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
-            regPass2Entry = Entry(self.OptionFrame, bg = "snow", show = "*")
-            regPass2Entry.pack()
+            self.regPass2Entry = Entry(self.OptionFrame, bg = "snow", show = "*")
+            self.regPass2Entry.pack()
             Label(self.OptionFrame, text = "", bg = "gray17", font = (fontVar,"1")).pack()
             
             # Registration Button
-            Button(self.OptionFrame, text="Register", bg = "steel blue", fg = "snow", width = "8", font = (fontVar,"10")).pack()
-            
+            Button(self.OptionFrame, command = self.userRegistration, text="Register", bg = "steel blue", fg = "snow", width = "8", font = (fontVar,"10")).pack()
+
+            # Message Alert
+            #Label(self.OptionFrame, textvariable=self.regSuccess, bg = "gray17", font = (fontVar, "8")).pack()
+            Label(self.OptionFrame, textvariable=self.regAlert, bg = "gray17", fg = self.colorAlert.get() , font = (fontVar, "8")).pack()
+
             # To Login Window 
             Label(self.OptionFrame, "", bg = "gray17", width = 4).pack(side=LEFT)
             Label(self.OptionFrame, text = "Already have an account?", bg = "gray17", fg = "white", font = (fontVar,"8")).pack(side=LEFT)
             Button(self.OptionFrame, text="Click here", bg = "gray17", fg = "steel blue", relief = "flat", font = (fontVar,"8"), command = self.transition.loginScreen).pack(side=LEFT)
+
+
+            
 
       def homePage(self):
             self.root = Tk()
