@@ -2,342 +2,100 @@ from tkinter import *
 import mysql.connector
 from tkinter.scrolledtext import ScrolledText
 
-global fontVar
 fontVar = "Calibri"
 
-# === MAIN SCREEN === #ens:
-class Screens:
-      def __init__(self):
-            # create a tkinter window
-            self.root = Tk()
+class Defaults():
+      def __init__(self, parent):
+            self.root = parent
 
-            # to scenter the screen
+      def defaultScreen(self):
+            # Default center screen config
             width = self.root.winfo_screenwidth()
             height = self.root.winfo_screenheight()
             x = int(width / 2 - 1024 / 2)
             y = int(height / 2 - 770 / 2)
             reso = "1024x720+"+ str(x) + "+" + str(y)
 
-            # size of window configuration
+            # Default size config
             self.root.geometry(reso)
             self.root.title("Study Helper v1.0")
             self.root.configure(bg = "gray17")
 
-            # disable resize of the window
+            # To disable window resize
             self.root.resizable(width=False, height=False)
 
-            # === Images Used === #
+      def menuFrame(self):
+            # ===== Menu Frame ===== #
+            self.menuFrame = Frame(self.root)
+            self.menuFrame.place(x=0, y=0, height = 720, width=50)
+            self.menuFrame.configure(bg ="dark slate gray")
+
+      def newTaskScreen(self):
+      # to center the screen
+            width = self.root.winfo_screenwidth()
+            height = self.root.winfo_screenheight()
+            x = int(width / 2 - 600 / 2)
+            y = int(height / 2 - 430 / 2)
+            reso = "600x500+"+ str(x) + "+" + str(y)
+
+            # size of window configuration
+            self.root.geometry(reso)
+            self.root.title("Create New Task")
+            self.root.configure(bg = "gray20")
+
+            # disable resize of the window
+            self.root.resizable(width=False, height=False) 
+
+
+class Transitions():
+      def __init__(self, parent):
+            self.root = parent
+
+      def loginScreen(self):
+            self.root.destroy()
+            screen = Screens()
+            screen.loginPage()
+            
+      def registrationScreen(self):
+            self.root.destroy()
+            screen = Screens()
+            screen.registrationPage()
+
+      def homeScreen(self):
+            self.root.destroy()
+            screen = Screens()
+            screen.homePage()
+
+      def newTaskScreen(self):
+            screen = Screens()
+            screen.newTaskPage()
+
+      def destroyNewTask(self):
+            self.root.destroy()
+
+
+class Screens():
+      def __init__(self):
+            pass
+
+      # It calls all the images that can be used
+      def imageUsed(self):
             self.logo = PhotoImage(file = "images\logo.png")
             self.pup = PhotoImage(file = "images\PUPLogo.png")
 
-            # === Frames list === #
-            # LogoFrame
+      # It is the default logo frame for Start Page, Login Page, and Registration Page
+      def startPageLogoFrame(self):
             self.LogoFrame = Frame(self.root)
-            self.LogoFrame.place(x=385, y=75)
-            # OptionFrame
+            self.LogoFrame.place(x=385, y=75)      
+
+      # It is the default middle frame for the Start Page, Login Page, and Registration Page
+      def startPageOptionFrame(self):
             self.OptionFrame = Frame(self.root)
             self.OptionFrame.place(x=385, y=340)
             self.OptionFrame.configure(bg ="gray17")
-
-            # Showing Logo
-            Label(self.LogoFrame, image=self.logo, bg = "gray17").pack()
-
-            # Showing OptionFrame
-            Label(self.OptionFrame,
-                  text="Welcome to Study Helper",
-                  bg = "gray17",
-                  fg = "SlateGray2",
-                  height = "3",
-                  font = (fontVar, "18")).pack()
-            # Login Button
-            Button(self.OptionFrame,
-                  text="Login",
-                  bg = "steel blue",
-                  fg = "snow",
-                  width = "12",
-                  font = (fontVar, "12"),
-                  command = self.loginScreen).pack()
-            Label(self.OptionFrame,
-                  text = "",
-                  bg = "gray17",
-                  font = (fontVar, "1")).pack()
-            # Register Button
-            Button(self.OptionFrame,
-                  text="Register",
-                  bg = "steel blue",
-                  fg = "snow",
-                  width = "12",
-                  font = (fontVar, "12"),
-                  command = self.registrationScreen).pack()
-
-            # loop to run the tkinter
-            self.root.mainloop()
-            
-      def loginScreen(self):
-            # destroy current window
-            self.root.destroy()
-
-            #open the new window
-            log = LoginWindow()
-
-      def registrationScreen(self):
-            # destroy current window
-            self.root.destroy()
-
-            #open the new window
-            reg = RegistrationWindow()
-
-
-# === LOGIN SCREEN === #
-class LoginWindow:
-
-      def __init__(self):
-            # create a tkinter window
-            self.root = Tk()
-
-            # to center the screen
-            width = self.root.winfo_screenwidth()
-            height = self.root.winfo_screenheight()
-            x = int(width / 2 - 1024 / 2)
-            y = int(height / 2 - 770 / 2)
-            reso = "1024x720+"+ str(x) + "+" + str(y)
-
-            # size of window configuration
-            self.root.geometry(reso)
-            self.root.title("Study Helper v1.0")
-            self.root.configure(bg = "gray17")
-
-            # disable resize of the window
-            self.root.resizable(width=False, height=False)
-
-            # === Images Used === #
-            self.logo = PhotoImage(file = "images\logo.png")
-
-            # === Frames list === #
-            # LogoFrame
-            self.LogoFrame = Frame(self.root)
-            self.LogoFrame.place(x=385, y=75)
-            # OptionFrame
-            self.OptionFrame = Frame(self.root)
-            self.OptionFrame.place(x=385, y=340)
-            self.OptionFrame.configure(bg ="gray17")
-            
-            # Showing Logo
-            Label(self.LogoFrame, image=self.logo, bg = "gray17").pack()
-
-            # Showing OptionFrame
-            Label(self.OptionFrame,
-                  text="Welcome to Study Helper",
-                  bg = "gray17",
-                  fg = "SlateGray2",
-                  height = "2",
-                  font = (fontVar,"18")).pack()
-            Label(self.OptionFrame,
-                  text="Account Login",
-                  bg = "gray17",
-                  fg = "steel blue",
-                  font = (fontVar,"15")).pack()
-            Label(self.OptionFrame,
-                  text="Username",
-                  bg = "gray17",
-                  fg = "Snow",
-                  font = (fontVar,"10")).pack()
-            userEntry = Entry(self.OptionFrame,
-                              bg = "snow")
-            userEntry.pack()
-            Label(self.OptionFrame,
-                  text="Password",
-                  bg = "gray17",
-                  fg = "Snow",
-                  font = (fontVar,"10")).pack()
-            passEntry = Entry(self.OptionFrame,
-                              bg = "snow",
-                              show = "*")
-            passEntry.pack()
-            Label(self.OptionFrame,
-                  text = "",
-                  bg = "gray17",
-                  font = (fontVar,"1")).pack()
-            
-            # LoginButton
-            Button(self.OptionFrame,
-                  text="Login",
-                  bg = "steel blue",
-                  fg = "snow",
-                  width = "8",
-                  font = (fontVar,"10"),
-                  command = self.homeScreen).pack()
-            
-            # To Registration Window 
-            Label(self.OptionFrame,
-                  text = "       Don't have an account yet?",
-                  bg = "gray17",
-                  fg = "white",
-                  font = (fontVar,"8")).pack(side=LEFT)
-
-            Button(self.OptionFrame,
-                  text="Click here",
-                  bg = "gray17",
-                  fg = "steel blue",
-                  relief = "flat",
-                  font = (fontVar,"8"),
-                  command = self.registrationScreen).pack(side=LEFT)
-
-            # loop to run the tkinter
-            self.root.mainloop()
-
-      def registrationScreen(self):
-            # destroy current window
-            self.root.destroy()
-
-            #open the new window
-            reg = RegistrationWindow()
-
-      def homeScreen(self):
-            # destroy current window
-            self.root.destroy()
-
-            #open the new window
-            home = HomeWindow()
-
-# === REGISTRATION SCREEN === #
-class RegistrationWindow:
-
-      def __init__(self):
-            # create a tkinter window
-            self.root = Tk()
-
-            # to center the screen
-            width = self.root.winfo_screenwidth()
-            height = self.root.winfo_screenheight()
-            x = int(width / 2 - 1024 / 2)
-            y = int(height / 2 - 770 / 2)
-            reso = "1024x720+"+ str(x) + "+" + str(y)
-
-            # size of window configuration
-            self.root.geometry(reso)
-            self.root.title("Study Helper v1.0")
-            self.root.configure(bg = "gray17")
-
-            # disable resize of the window
-            self.root.resizable(width=False, height=False)
-
-            # === Images Used === #
-            self.logo = PhotoImage(file = "images\logo.png")
-
-            # === Frames list === #
-            # LogoFrame
-            self.LogoFrame = Frame(self.root)
-            self.LogoFrame.place(x=385, y=75)
-            # OptionFrame
-            self.OptionFrame = Frame(self.root)
-            self.OptionFrame.place(x=385, y=340)
-            self.OptionFrame.configure(bg ="gray17")
-            
-            # Showing Logo
-            Label(self.LogoFrame, image=self.logo, bg = "gray17").pack()
-
-            # Showing OptionFrame
-            Label(self.OptionFrame,
-                  text="Welcome to Study Helper",
-                  bg = "gray17",
-                  fg = "SlateGray2",
-                  height = "2",
-                  font = (fontVar,"18")).pack()
-            Label(self.OptionFrame,
-                  text="Account Registration",
-                  bg = "gray17",
-                  fg = "steel blue",
-                  font = (fontVar,"15")).pack()
-            Label(self.OptionFrame,
-                  text="Username",
-                  bg = "gray17",
-                  fg = "Snow",
-                  font = (fontVar,"10")).pack()
-            userEntry = Entry(self.OptionFrame,
-                              bg = "snow")
-            userEntry.pack()
-            Label(self.OptionFrame,
-                  text="Password",
-                  bg = "gray17",
-                  fg = "Snow",
-                  font = (fontVar,"10")).pack()
-            passEntry = Entry(self.OptionFrame,
-                              bg = "snow",
-                              show = "*")
-            passEntry.pack()
-            Label(self.OptionFrame,
-                  text="Re-type password",
-                  bg = "gray17",
-                  fg = "Snow",
-                  font = (fontVar,"10")).pack()
-            pass2Entry = Entry(self.OptionFrame,
-                              bg = "snow",
-                              show = "*")
-            pass2Entry.pack()
-            Label(self.OptionFrame,
-                  text = "",
-                  bg = "gray17",
-                  font = (fontVar,"1")).pack()
-            
-            # Registration Button
-            Button(self.OptionFrame,
-                  text="Register",
-                  bg = "steel blue",
-                  fg = "snow",
-                  width = "8",
-                  font = (fontVar,"10"),
-                  command = self.loginScreen).pack()
-
-            # To Login Window 
-            Label(self.OptionFrame,
-                  text = "       Already have an account?",
-                  bg = "gray17",
-                  fg = "white",
-                  font = (fontVar,"8")).pack(side=LEFT)
-
-            Button(self.OptionFrame,
-                  text="Click here",
-                  bg = "gray17",
-                  fg = "steel blue",
-                  relief = "flat",
-                  font = (fontVar,"8"),
-                  command = self.loginScreen).pack(side=LEFT)
-
-            # loop to run the tkinter
-            self.root.mainloop()
-
-      def loginScreen(self):
-            # destroy current window
-            self.root.destroy()
-
-            #open the new window
-            log = LoginWindow()
-            log.loginScreen
-
-class HomeWindow:
-      def __init__(self):
-            self.root = Tk()
-
-            # to center the screen
-            width = self.root.winfo_screenwidth()
-            height = self.root.winfo_screenheight()
-            x = int(width / 2 - 1024 / 2)
-            y = int(height / 2 - 770 / 2)
-            reso = "1024x720+"+ str(x) + "+" + str(y)
-
-            # size of window configuration
-            self.root.geometry(reso)
-            self.root.title("Study Helper v1.0")
-            self.root.configure(bg = "gray17")
-
-            # disable resize of the window
-            self.root.resizable(width=False, height=False)  
-
-            # === Images Used === #
-            self.logo = PhotoImage(file = "images\logo.png")            
-
-            # Line Frame
+      
+      def homePageFrame(self):
+            # Line Frame1
             self.lineFrame = Frame(self.root)
             self.lineFrame.place(x=358, y=0, height = 720, width=2)
             self.lineFrame.configure(bg = "gray20")
@@ -387,42 +145,7 @@ class HomeWindow:
             self.contentRightFrame.place(x=50, y=120)
             self.contentRightFrame.configure(bg ="gray17")
 
-            # Content of Menu Frame
-
-            # Content of top left frame
-            Today = Label(self.topLeftFrame, text = "Today", bg = "gray20", fg = "white", font = (fontVar, "18", "bold")).place(x = 20, y = 30)
-            DateToday = Label(self.topLeftFrame, text = "Day, Month 0", bg = "gray20", fg = "white", font = (fontVar,"14")).place(x = 20, y = 60)
-
-            # Content of top middle frame
-            Tasks = Label(self.topMiddleFrame, text = "Tasks", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
-            NewTask = Button(self.topMiddleFrame, command = self.newTaskScreen, text = "New Task +", bg = "steel blue", fg = "white", font = (fontVar,"12", "bold"), relief = "raised").place(x = 20, y = 65)
-
-            # Content of top right frame
-            Tasks = Label(self.topRightFrame, text = "Exams", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
-
-      def newTaskScreen(self):
-            newTask = NewTaskWindow()
-
-
-class NewTaskWindow:
-      def __init__(self):
-            self.root = Tk()
-
-            # to center the screen
-            width = self.root.winfo_screenwidth()
-            height = self.root.winfo_screenheight()
-            x = int(width / 2 - 600 / 2)
-            y = int(height / 2 - 430 / 2)
-            reso = "600x500+"+ str(x) + "+" + str(y)
-
-            # size of window configuration
-            self.root.geometry(reso)
-            self.root.title("Create New Task")
-            self.root.configure(bg = "gray20")
-
-            # disable resize of the window
-            self.root.resizable(width=False, height=False) 
-
+      def newTaskFrame(self):
             # Header Frame
             self.headerFrame = Frame(self.root)
             self.headerFrame.place(x=0, y=0, width=600, height=75)
@@ -433,8 +156,150 @@ class NewTaskWindow:
             # Middle Frame
             self.middleFrame = Frame(self.root)
             self.middleFrame.place(x=0, y=76, width = 600, height = 425)
-            self.middleFrame.configure(bg = "gray20")
+            self.middleFrame.configure(bg = "gray20")            
+
+      # Start page or default screen page
+      def startPage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.transition = Transitions(self.root)
+            self.default.defaultScreen()
+            self.startPageLogoFrame()
+            self.startPageOptionFrame()
+            self.imageUsed()
             
+            # Logo Display of startPage
+            Label(self.LogoFrame, image=self.logo, bg = "gray17").pack()
+
+            # Welcome Label
+            Label(self.OptionFrame, text="Welcome to Study Helper", bg = "gray17", fg = "SlateGray2", height = "3", font = (fontVar, "18")).pack()
+
+            # Login Button
+            Button(self.OptionFrame, text="Login", bg = "steel blue", fg = "snow", width = "12", font = (fontVar, "12"), command = self.transition.loginScreen).pack()
+
+            # Spacer
+            Label(self.OptionFrame, text = "", bg = "gray17", font = (fontVar, "1")).pack()
+
+            # Register Button
+            Button(self.OptionFrame, text="Register", bg = "steel blue", fg = "snow", width = "12", font = (fontVar, "12"), command = self.transition.registrationScreen).pack()
+
+            # Loop to start
+            self.root.mainloop()
+            
+      # Login page
+      def loginPage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.transition = Transitions(self.root)
+            self.default.defaultScreen()
+            self.startPageLogoFrame()
+            self.startPageOptionFrame()
+            self.imageUsed()
+
+            # Showing Logo
+            Label(self.LogoFrame, image=self.logo, bg = "gray17").pack()
+
+            # Welcome Label
+            Label(self.OptionFrame, text="Welcome to Study Helper", bg = "gray17", fg = "SlateGray2", height = "2", font = (fontVar,"18")).pack()
+
+            # Account Login Label
+            Label(self.OptionFrame, text="Account Login", bg = "gray17", fg = "steel blue", font = (fontVar,"15")).pack()
+
+            # Username Label and Entry
+            Label(self.OptionFrame, text="Username", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
+            logUserEntry = Entry(self.OptionFrame, bg = "snow")
+            logUserEntry.pack()
+
+            # Password Label and Entry
+            Label(self.OptionFrame, text="Password", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
+            logPassEntry = Entry(self.OptionFrame, bg = "snow", show = "*")
+            logPassEntry.pack()
+            Label(self.OptionFrame, text = "", bg = "gray17", font = (fontVar,"1")).pack()
+            
+            # Login Button
+            Button(self.OptionFrame, text="Login", bg = "steel blue", fg = "snow", width = "8", font = (fontVar,"10"), command = self.transition.homeScreen).pack()
+            
+            # To Registration Window 
+            Label(self.OptionFrame, "", bg = "gray17", width = 4).pack(side=LEFT)
+            Label(self.OptionFrame, text = "Don't have an account yet?", bg = "gray17", fg = "white", font = (fontVar,"8")).pack(side=LEFT)
+            Button(self.OptionFrame, text="Click here", bg = "gray17", fg = "steel blue", relief = "flat", font = (fontVar,"8"), command = self.transition.registrationScreen).pack(side=LEFT)
+
+            self.root.mainloop()
+      
+      # Registration Page
+      def registrationPage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.transition = Transitions(self.root)
+            self.default.defaultScreen()
+            self.startPageLogoFrame()
+            self.startPageOptionFrame()
+            self.imageUsed()
+            
+            # Showing Logo
+            Logo = Label(self.LogoFrame, image=self.logo, bg = "gray17")
+            Logo.image = self.logo
+            Logo.pack()
+      
+
+            # Welcome Label
+            Label(self.OptionFrame, text="Welcome to Study Helper", bg = "gray17", fg = "SlateGray2", height = "2", font = (fontVar,"18")).pack()
+
+            # Account Registration Label
+            Label(self.OptionFrame, text="Account Registration", bg = "gray17", fg = "steel blue", font = (fontVar,"15")).pack()
+
+            # Username Label and Entry
+            Label(self.OptionFrame, text="Username", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
+            regUserEntry = Entry(self.OptionFrame, bg = "snow")
+            regUserEntry.pack()
+
+            # Password Label and Entry
+            Label(self.OptionFrame, text="Password", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
+            regPassEntry = Entry(self.OptionFrame, bg = "snow", show = "*")
+            regPassEntry.pack()
+            Label(self.OptionFrame, text = "", bg = "gray17", font = (fontVar,"1")).pack()
+
+            # Password 2 Label and Entry
+            Label(self.OptionFrame, text="Re-type password", bg = "gray17", fg = "Snow", font = (fontVar,"10")).pack()
+            regPass2Entry = Entry(self.OptionFrame, bg = "snow", show = "*")
+            regPass2Entry.pack()
+            Label(self.OptionFrame, text = "", bg = "gray17", font = (fontVar,"1")).pack()
+            
+            # Registration Button
+            Button(self.OptionFrame, text="Register", bg = "steel blue", fg = "snow", width = "8", font = (fontVar,"10")).pack()
+            
+            # To Login Window 
+            Label(self.OptionFrame, "", bg = "gray17", width = 4).pack(side=LEFT)
+            Label(self.OptionFrame, text = "Already have an account?", bg = "gray17", fg = "white", font = (fontVar,"8")).pack(side=LEFT)
+            Button(self.OptionFrame, text="Click here", bg = "gray17", fg = "steel blue", relief = "flat", font = (fontVar,"8"), command = self.transition.loginScreen).pack(side=LEFT)
+
+      def homePage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.transition = Transitions(self.root)
+            self.default.defaultScreen()
+            self.homePageFrame()
+            self.imageUsed()
+
+            # Content of top left frame
+            Today = Label(self.topLeftFrame, text = "Today", bg = "gray20", fg = "white", font = (fontVar, "18", "bold")).place(x = 20, y = 30)
+            DateToday = Label(self.topLeftFrame, text = "Day, Month 0", bg = "gray20", fg = "white", font = (fontVar,"14")).place(x = 20, y = 60)
+
+            # Content of top middle frame
+            Tasks = Label(self.topMiddleFrame, text = "Tasks", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
+            NewTask = Button(self.topMiddleFrame, command = self.transition.newTaskScreen, text = "New Task +", bg = "steel blue", fg = "white", font = (fontVar,"12", "bold"), relief = "raised").place(x = 20, y = 65)
+
+            # Content of top right frame
+            Tasks = Label(self.topRightFrame, text = "Exams", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
+
+      def newTaskPage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.default.newTaskScreen()            
+            self.transition = Transitions(self.root)
+            self.imageUsed()
+            self.newTaskFrame()
+
             # Content of Middle Frame
             subjVar = StringVar(self.root)
             subjVar.set("Subject 0")
@@ -467,16 +332,12 @@ class NewTaskWindow:
             Details.place(x=25, y=225, height = 150, width = 550)
 
             # Cancel and Save (Button)
-            Button(self.middleFrame, command = self.destroyNewTask,  text = "Cancel", bg = "gray80", fg = "gray10", font =(fontVar,"11")).place(x=25, y=383)
-            Button(self.middleFrame, text = "Save", bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=535, y=383)
-      
-      def destroyNewTask(self):
-            self.root.destroy()
+            Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Cancel", bg = "gray80", fg = "gray10", font =(fontVar,"11")).place(x=25, y=383)
+            Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Save", width = 5, bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=525, y=383)
 
-if __name__ == "__main__":
-    x = Screens()
+app = Screens()
+app.startPage()
 
-    
 
 
 

@@ -1,14 +1,10 @@
 from tkinter import *
 
-class Default:
+class App():
     def __init__(self):
-        pass
-          
-    def scrn(self):
-        
-        self.root = Tk()
-
-        # to scenter the screen
+        self.startPage()
+    
+    def defaultScreen(self):
         width = self.root.winfo_screenwidth()
         height = self.root.winfo_screenheight()
         x = int(width / 2 - 1024 / 2)
@@ -22,4 +18,18 @@ class Default:
 
         # disable resize of the window
         self.root.resizable(width=False, height=False)
-          
+        
+    def startPage(self):
+        self.root = Tk()
+        self.defaultScreen()
+        Button(self.root, text = "Login Page", command = self.loginPage).pack()
+        self.root.mainloop()
+
+    def loginPage(self):
+        self.root = Tk()
+        self.defaultScreen()
+        Button(self.root, text = "Start Page", command = self.startPage).pack()
+        self.root.mainloop()
+
+system = App()
+
