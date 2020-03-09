@@ -2,11 +2,10 @@ from tkinter import *
 import mysql.connector
 from tkinter.scrolledtext import ScrolledText
 
-global fontVar
-fontVar = "Calibri"
+# === MAIN SCREEN === #
 
-# === MAIN SCREEN === #ens:
 class Screens:
+   
       def __init__(self):
             # create a tkinter window
             self.root = Tk()
@@ -28,7 +27,6 @@ class Screens:
 
             # === Images Used === #
             self.logo = PhotoImage(file = "images\logo.png")
-            self.pup = PhotoImage(file = "images\PUPLogo.png")
 
             # === Frames list === #
             # LogoFrame
@@ -36,7 +34,7 @@ class Screens:
             self.LogoFrame.place(x=385, y=75)
             # OptionFrame
             self.OptionFrame = Frame(self.root)
-            self.OptionFrame.place(x=385, y=340)
+            self.OptionFrame.place(x=350, y=340)
             self.OptionFrame.configure(bg ="gray17")
 
             # Showing Logo
@@ -48,26 +46,26 @@ class Screens:
                   bg = "gray17",
                   fg = "SlateGray2",
                   height = "3",
-                  font = (fontVar, "18")).pack()
+                  font = ("Courier 18")).pack()
             # Login Button
             Button(self.OptionFrame,
                   text="Login",
                   bg = "steel blue",
                   fg = "snow",
                   width = "12",
-                  font = (fontVar, "12"),
+                  font = ("Courier 12"),
                   command = self.loginScreen).pack()
             Label(self.OptionFrame,
                   text = "",
                   bg = "gray17",
-                  font = (fontVar, "1")).pack()
+                  font = ("Courier 1")).pack()
             # Register Button
             Button(self.OptionFrame,
                   text="Register",
                   bg = "steel blue",
                   fg = "snow",
                   width = "12",
-                  font = (fontVar, "12"),
+                  font = ("Courier 12"),
                   command = self.registrationScreen).pack()
 
             # loop to run the tkinter
@@ -119,7 +117,7 @@ class LoginWindow:
             self.LogoFrame.place(x=385, y=75)
             # OptionFrame
             self.OptionFrame = Frame(self.root)
-            self.OptionFrame.place(x=385, y=340)
+            self.OptionFrame.place(x=350, y=340)
             self.OptionFrame.configure(bg ="gray17")
             
             # Showing Logo
@@ -130,18 +128,13 @@ class LoginWindow:
                   text="Welcome to Study Helper",
                   bg = "gray17",
                   fg = "SlateGray2",
-                  height = "2",
-                  font = (fontVar,"18")).pack()
-            Label(self.OptionFrame,
-                  text="Account Login",
-                  bg = "gray17",
-                  fg = "steel blue",
-                  font = (fontVar,"15")).pack()
+                  height = "3",
+                  font = ("Courier 18")).pack()
             Label(self.OptionFrame,
                   text="Username",
                   bg = "gray17",
                   fg = "Snow",
-                  font = (fontVar,"10")).pack()
+                  font = ("Courier 10")).pack()
             userEntry = Entry(self.OptionFrame,
                               bg = "snow")
             userEntry.pack()
@@ -149,7 +142,7 @@ class LoginWindow:
                   text="Password",
                   bg = "gray17",
                   fg = "Snow",
-                  font = (fontVar,"10")).pack()
+                  font = ("Courier 10")).pack()
             passEntry = Entry(self.OptionFrame,
                               bg = "snow",
                               show = "*")
@@ -157,7 +150,7 @@ class LoginWindow:
             Label(self.OptionFrame,
                   text = "",
                   bg = "gray17",
-                  font = (fontVar,"1")).pack()
+                  font = ("Courier 1")).pack()
             
             # LoginButton
             Button(self.OptionFrame,
@@ -165,7 +158,7 @@ class LoginWindow:
                   bg = "steel blue",
                   fg = "snow",
                   width = "8",
-                  font = (fontVar,"10"),
+                  font = ("Courier 10"),
                   command = self.homeScreen).pack()
             
             # To Registration Window 
@@ -173,14 +166,14 @@ class LoginWindow:
                   text = "       Don't have an account yet?",
                   bg = "gray17",
                   fg = "white",
-                  font = (fontVar,"8")).pack(side=LEFT)
+                  font = ("Courier 8")).pack(side=LEFT)
 
             Button(self.OptionFrame,
                   text="Click here",
                   bg = "gray17",
                   fg = "steel blue",
                   relief = "flat",
-                  font = (fontVar,"8"),
+                  font = ("Courier 8"),
                   command = self.registrationScreen).pack(side=LEFT)
 
             # loop to run the tkinter
@@ -231,7 +224,7 @@ class RegistrationWindow:
             self.LogoFrame.place(x=385, y=75)
             # OptionFrame
             self.OptionFrame = Frame(self.root)
-            self.OptionFrame.place(x=385, y=340)
+            self.OptionFrame.place(x=350, y=340)
             self.OptionFrame.configure(bg ="gray17")
             
             # Showing Logo
@@ -242,18 +235,13 @@ class RegistrationWindow:
                   text="Welcome to Study Helper",
                   bg = "gray17",
                   fg = "SlateGray2",
-                  height = "2",
-                  font = (fontVar,"18")).pack()
-            Label(self.OptionFrame,
-                  text="Account Registration",
-                  bg = "gray17",
-                  fg = "steel blue",
-                  font = (fontVar,"15")).pack()
+                  height = "3",
+                  font = ("Courier 18")).pack()
             Label(self.OptionFrame,
                   text="Username",
                   bg = "gray17",
                   fg = "Snow",
-                  font = (fontVar,"10")).pack()
+                  font = ("Courier 10")).pack()
             userEntry = Entry(self.OptionFrame,
                               bg = "snow")
             userEntry.pack()
@@ -261,7 +249,7 @@ class RegistrationWindow:
                   text="Password",
                   bg = "gray17",
                   fg = "Snow",
-                  font = (fontVar,"10")).pack()
+                  font = ("Courier 10")).pack()
             passEntry = Entry(self.OptionFrame,
                               bg = "snow",
                               show = "*")
@@ -270,7 +258,7 @@ class RegistrationWindow:
                   text="Re-type password",
                   bg = "gray17",
                   fg = "Snow",
-                  font = (fontVar,"10")).pack()
+                  font = ("Courier 10")).pack()
             pass2Entry = Entry(self.OptionFrame,
                               bg = "snow",
                               show = "*")
@@ -278,7 +266,7 @@ class RegistrationWindow:
             Label(self.OptionFrame,
                   text = "",
                   bg = "gray17",
-                  font = (fontVar,"1")).pack()
+                  font = ("Courier 1")).pack()
             
             # Registration Button
             Button(self.OptionFrame,
@@ -286,7 +274,7 @@ class RegistrationWindow:
                   bg = "steel blue",
                   fg = "snow",
                   width = "8",
-                  font = (fontVar,"10"),
+                  font = ("Courier 10"),
                   command = self.loginScreen).pack()
 
             # To Login Window 
@@ -294,14 +282,14 @@ class RegistrationWindow:
                   text = "       Already have an account?",
                   bg = "gray17",
                   fg = "white",
-                  font = (fontVar,"8")).pack(side=LEFT)
+                  font = ("Courier 8")).pack(side=LEFT)
 
             Button(self.OptionFrame,
                   text="Click here",
                   bg = "gray17",
                   fg = "steel blue",
                   relief = "flat",
-                  font = (fontVar,"8"),
+                  font = ("Courier 8"),
                   command = self.loginScreen).pack(side=LEFT)
 
             # loop to run the tkinter
@@ -333,9 +321,6 @@ class HomeWindow:
 
             # disable resize of the window
             self.root.resizable(width=False, height=False)  
-
-            # === Images Used === #
-            self.logo = PhotoImage(file = "images\logo.png")            
 
             # Line Frame
             self.lineFrame = Frame(self.root)
@@ -387,18 +372,16 @@ class HomeWindow:
             self.contentRightFrame.place(x=50, y=120)
             self.contentRightFrame.configure(bg ="gray17")
 
-            # Content of Menu Frame
-
             # Content of top left frame
-            Today = Label(self.topLeftFrame, text = "Today", bg = "gray20", fg = "white", font = (fontVar, "18", "bold")).place(x = 20, y = 30)
-            DateToday = Label(self.topLeftFrame, text = "Day, Month 0", bg = "gray20", fg = "white", font = (fontVar,"14")).place(x = 20, y = 60)
+            Today = Label(self.topLeftFrame, text = "Today", bg = "gray20", fg = "white", font = ("Courier 18 bold")).place(x = 20, y = 30)
+            DateToday = Label(self.topLeftFrame, text = "Day, Month 0", bg = "gray20", fg = "white", font = ("Courier 14")).place(x = 20, y = 60)
 
             # Content of top middle frame
-            Tasks = Label(self.topMiddleFrame, text = "Tasks", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
-            NewTask = Button(self.topMiddleFrame, command = self.newTaskScreen, text = "New Task +", bg = "steel blue", fg = "white", font = (fontVar,"12", "bold"), relief = "raised").place(x = 20, y = 65)
+            Tasks = Label(self.topMiddleFrame, text = "Tasks", bg = "gray20", fg = "white", font = ("Courier 18 bold")).place(x = 20, y = 30)
+            NewTask = Button(self.topMiddleFrame, command = self.newTaskScreen, text = "New Task +", bg = "steel blue", fg = "white", font = ("Courier 12 bold"), relief = "raised").place(x = 20, y = 65)
 
             # Content of top right frame
-            Tasks = Label(self.topRightFrame, text = "Exams", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
+            Tasks = Label(self.topRightFrame, text = "Exams", bg = "gray20", fg = "white", font = ("Courier 18 bold")).place(x = 20, y = 30)
 
       def newTaskScreen(self):
             newTask = NewTaskWindow()
@@ -427,8 +410,8 @@ class NewTaskWindow:
             self.headerFrame = Frame(self.root)
             self.headerFrame.place(x=0, y=0, width=600, height=75)
             self.headerFrame.configure(bg ="dark slate gray")
-            Label(self.headerFrame, text = "New Task", bg = "dark slate gray", fg = "white", font = (fontVar,"18", "bold")).place(x=20, y=15)
-            Year = Label(self.headerFrame, text = "2020", bg = "dark slate gray", fg = "white", font = (fontVar,"12")).place(x=20, y=45)
+            Label(self.headerFrame, text = "New Task", bg = "dark slate gray", fg = "white", font = ("Courier 18 bold")).place(x=20, y=15)
+            Year = Label(self.headerFrame, text = "2020", bg = "dark slate gray", fg = "white", font = ("Courier 12")).place(x=20, y=45)
 
             # Middle Frame
             self.middleFrame = Frame(self.root)
@@ -442,36 +425,36 @@ class NewTaskWindow:
             typeVar.set("Task Type")
 
             # Subject OptionMenu (Dropdown)
-            Label(self.middleFrame, text = "Subject", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=20)
+            Label(self.middleFrame, text = "Subject", bg = "gray20", fg = "white", font = ("Courier 10")).place(x=20, y=20)
             Subject = OptionMenu(self.middleFrame, subjVar, "Subject1", "Subject2", "Subject3")
             Subject["highlightthickness"]=0
             Subject.place(x=25, y=45)
             
             # Due Date
-            Label(self.middleFrame, text = "Due Date", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=80)
+            Label(self.middleFrame, text = "Due Date", bg = "gray20", fg = "white", font = ("Courier 10")).place(x=20, y=80)
             DueDate = Entry(self.middleFrame).place(x=25, y=105, height = 25)
 
             # Type OptionMenu (Dropdown)
-            Label(self.middleFrame, text = "Type", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=340, y=80)
+            Label(self.middleFrame, text = "Type", bg = "gray20", fg = "white", font = ("Courier 10")).place(x=340, y=80)
             Type = OptionMenu(self.middleFrame, typeVar,  "Assignment", "Exam", "Quiz")
             Type["highlightthickness"]=0
             Type.place(x=345, y=105)
 
             # Title (Entry)
-            Label(self.middleFrame, text = "Title", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=140)
+            Label(self.middleFrame, text = "Title", bg = "gray20", fg = "white", font = ("Courier 10")).place(x=20, y=140)
             Title = Entry(self.middleFrame).place(x=25, y=165, width = 415, height = 28)
             
             # Details (Entry)
-            Label(self.middleFrame, text = "Detail", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=200)
-            Details = ScrolledText(self.middleFrame, font = (fontVar, "9"))
+            Label(self.middleFrame, text = "Detail", bg = "gray20", fg = "white", font = ("Courier 10")).place(x=20, y=200)
+            Details = ScrolledText(self.middleFrame)
             Details.place(x=25, y=225, height = 150, width = 550)
 
             # Cancel and Save (Button)
-            Button(self.middleFrame, command = self.destroyNewTask,  text = "Cancel", bg = "gray80", fg = "gray10", font =(fontVar,"11")).place(x=25, y=383)
-            Button(self.middleFrame, text = "Save", bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=535, y=383)
-      
-      def destroyNewTask(self):
-            self.root.destroy()
+            Button(self.middleFrame, text = "Cancel", bg = "gray80", fg = "gray10", font =("Courier 10")).place(x=25, y=385)
+            Button(self.middleFrame, text = "Save", bg = "steel blue", fg = "white", font =("Courier 10")).place(x=532, y=385)
+
+
+
 
 if __name__ == "__main__":
     x = Screens()
