@@ -131,6 +131,10 @@ class Screens():
       def imageUsed(self):
             self.logo = PhotoImage(file = "images\logo.png")
             self.pup = PhotoImage(file = "images\PUPLogo.png")
+            self.menuLogo = PhotoImage(file = "images\menulogo.png")
+            self.menuDashBoard = PhotoImage(file = "images\menudashboard.png")
+            self.menuTask = PhotoImage(file = "images\menutask.png")
+            self.menuSubject = PhotoImage(file = "images\menusubject.png")
 
       # Default startlogo frame It is the default logo frame for Start Page, Login Page, and Registration Page
       def startPageLogoFrame(self):
@@ -355,6 +359,25 @@ class Screens():
             # Content of top right frame
             Tasks = Label(self.topRightFrame, text = "Exams", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
 
+            # Logo of menu frame
+            Logo = Label(self.menuFrame, image = self.menuLogo, bg = "dark slate gray")
+            Logo.image = self.menuLogo
+            Logo.place(x=5, y=5)
+
+            # Content of menu frame
+            menuDashBoard = Button(self.menuFrame, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat")
+            menuDashBoard.image = self.menuDashBoard
+            menuDashBoard.place(x=5, y=60, width=40, height=40)
+            
+            menuTask = Button(self.menuFrame, image = self.menuTask, bg = "dark slate gray", relief = "flat")
+            menuTask.image = self.menuTask
+            menuTask.place(x=5, y=100, width=40, height=40)
+
+            menuSubject = Button(self.menuFrame, image = self.menuSubject, bg = "dark slate gray", relief = "flat")
+            menuSubject.image = self.menuSubject
+            menuSubject.place(x=4, y=140, width=40, height=40)
+
+            
       # New Task Page
       def newTaskPage(self):
             self.root = Tk()
