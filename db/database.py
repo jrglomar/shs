@@ -15,9 +15,6 @@ class Validation:
         except:
             return False
 
-
-
-
 class UserDb:
     def __init__(self):
         self.mydb = mysql.connector.connect(host='localhost',
@@ -49,3 +46,9 @@ class UserDb:
             return reg
         except:
             return False
+
+    def newTask(self, data):
+            newTask = self.cursor.execute("INSERT INTO REMINDER(Type, Title, Due_Date, Details) VALUES(%s, %s, %s, %s);",
+            (data))
+            self.mydb.commit()
+

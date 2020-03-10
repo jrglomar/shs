@@ -4,7 +4,6 @@ from tkinter.scrolledtext import ScrolledText
 from db.database import *
 
 fontVar = "Calibri"
-colorAlert = "red"
 
 class Defaults():
       def __init__(self, parent):
@@ -82,8 +81,8 @@ class Screens():
       # Validation for Registration
       def userRegistration(self):
             self.db = UserDb()
+            self.transition = Transitions(self.root)
             data = (self.regUserEntry.get(), self.regPassEntry.get())
-
             if self.regUserEntry.get() == "":
                   self.regAlert.set("Enter Username First")
 
@@ -92,19 +91,25 @@ class Screens():
                   
             elif self.regPass2Entry.get() == "":
                   self.regAlert.set("Enter Password First")
-                  
-            else:
+
+            elif len(self.regUserEntry.get()) < 6:
+                  self.regAlert.set("Invalid Username. Minimum of 6 characters")
+
+            elif len(self.regPassEntry.get()) < 8:
+                  self.regAlert.set("Invalid Password. Minimum of 8 characters")      
+
+            elif self.regUserEntry.get().isalnum():     
                   if(self.regPassEntry.get() == self.regPass2Entry.get()):  
                         test = self.db.userRegistration(data, self.regUserEntry.get())
                         if not test:
-                              self.regAlert.set("Registration Successfully")
-                              colorAlert = "green"
-                              self.root.update()
+                              self.colorAlert.set('green')
+                              self.transition.loginScreen()
                         else:
                               self.regAlert.set("Username already exist")
-                              
                   else:
                         self.regAlert.set("Password do not match!")
+            else:
+                  self.regAlert.set("Invalid username. Use alphanumeric only.")
                         
       # Validation for Login
       def userLogin(self):
@@ -126,6 +131,35 @@ class Screens():
                         self.transition.homeScreen()
                   else:
                         self.logAlert.set("Wrong username/password")
+
+      # Validation for New Task
+      def newTask(self):
+            self.transition = Transitions(self.root)
+            self.db = UserDb()
+            Type = self.typeVar.get()
+            Title = self.Title.get()
+            DueDate = self.DueDate.get()
+            Details = self.Details.get('1.0', END)
+            
+            print(Type, Title, DueDate, Details)
+
+            data = (Type, Title, DueDate, Details,
+            )
+
+            if self.DueDate.get() == "":
+                  self.regAlert.set("Please fill up the blanks")
+
+            elif self.Title.get() == "":
+                  self.regAlert.set("Please fill up the blanks")
+                  
+            elif self.Details.get('1.0', END) == "":
+                  self.regAlert.set("Please fill up the blanks")
+            else:
+                  self.db.newTask(data)
+                  self.transition.destroyNewTask()
+
+
+
 
       # It calls all the images that can be used
       def imageUsed(self):
@@ -254,6 +288,7 @@ class Screens():
             self.logAlert = StringVar()
             self.colorAlert = StringVar()
             self.colorAlert.set('red')
+            self.logSuccess = StringVar()
 
             # Showing Logo
             Label(self.LogoFrame, image=self.logo, bg = "gray17").pack()
@@ -297,6 +332,8 @@ class Screens():
             self.startPageOptionFrame()
             self.imageUsed()
             self.regAlert = StringVar()
+            self.colorAlert = StringVar()
+            self.colorAlert.set('red')
 
             
             # Showing Logo
@@ -332,7 +369,7 @@ class Screens():
 
             # Message Alert
             #Label(self.OptionFrame, textvariable=self.regSuccess, bg = "gray17", font = (fontVar, "8")).pack()
-            self.alert = Label(self.OptionFrame, textvariable=self.regAlert, bg = "gray17", fg = colorAlert, font = (fontVar, "8")).pack()
+            self.alert = Label(self.OptionFrame, textvariable=self.regAlert, bg = "gray17", fg = self.colorAlert.get(), font = (fontVar, "8")).pack()
 
             # To Login Window 
             Label(self.OptionFrame, "", bg = "gray17", width = 4).pack(side=LEFT)
@@ -376,8 +413,7 @@ class Screens():
             menuSubject = Button(self.menuFrame, image = self.menuSubject, bg = "dark slate gray", relief = "flat")
             menuSubject.image = self.menuSubject
             menuSubject.place(x=4, y=140, width=40, height=40)
-
-            
+ 
       # New Task Page
       def newTaskPage(self):
             self.root = Tk()
@@ -388,39 +424,41 @@ class Screens():
             self.newTaskFrame()
 
             # Content of Middle Frame
-            subjVar = StringVar(self.root)
-            subjVar.set("Subject 0")
-            typeVar = StringVar(self.root)
-            typeVar.set("Task Type")
+            self.subjVar = StringVar(self.root)
+            self.subjVar.set("Subject 0")
+            self.typeVar = StringVar(self.root)
+            self.typeVar.set("Task Type")
 
             # Subject OptionMenu (Dropdown)
             Label(self.middleFrame, text = "Subject", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=20)
-            Subject = OptionMenu(self.middleFrame, subjVar, "Subject1", "Subject2", "Subject3")
-            Subject["highlightthickness"]=0
-            Subject.place(x=25, y=45)
+            self.Subject = OptionMenu(self.middleFrame, self.subjVar, "Subject1", "Subject2", "Subject3")
+            self.Subject["highlightthickness"]=0
+            self.Subject.place(x=25, y=45)
             
             # Due Date
             Label(self.middleFrame, text = "Due Date", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=80)
-            DueDate = Entry(self.middleFrame).place(x=25, y=105, height = 25)
+            self.DueDate = Entry(self.middleFrame)
+            self.DueDate.place(x=25, y=105, height = 25)
 
             # Type OptionMenu (Dropdown)
             Label(self.middleFrame, text = "Type", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=340, y=80)
-            Type = OptionMenu(self.middleFrame, typeVar,  "Assignment", "Exam", "Quiz")
-            Type["highlightthickness"]=0
-            Type.place(x=345, y=105)
+            self.Type = OptionMenu(self.middleFrame, self.typeVar, "Assignment", "Exam", "Quiz")
+            self.Type["highlightthickness"]=0
+            self.Type.place(x=345, y=105)
 
             # Title (Entry)
             Label(self.middleFrame, text = "Title", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=140)
-            Title = Entry(self.middleFrame).place(x=25, y=165, width = 415, height = 28)
+            self.Title = Entry(self.middleFrame)
+            self.Title.place(x=25, y=165, width = 415, height = 28)
             
             # Details (Entry)
             Label(self.middleFrame, text = "Detail", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=200)
-            Details = ScrolledText(self.middleFrame, font = (fontVar, "9"))
-            Details.place(x=25, y=225, height = 140, width = 550)
+            self.Details = ScrolledText(self.middleFrame, font = (fontVar, "9"))
+            self.Details.place(x=25, y=225, height = 140, width = 550)
 
             # Cancel and Save (Button)
             Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Cancel", bg = "gray80", fg = "gray10", font =(fontVar,"11")).place(x=25, y=379)
-            Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Save", width = 5, bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=525, y=379)
+            Button(self.middleFrame, command = self.newTask, text = "Save", width = 5, bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=525, y=379)
 
 app = Screens()
 app.startPage()
