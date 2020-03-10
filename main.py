@@ -4,6 +4,7 @@ from tkinter.scrolledtext import ScrolledText
 from db.database import *
 
 fontVar = "Calibri"
+colorAlert = "red"
 
 class Defaults():
       def __init__(self, parent):
@@ -32,7 +33,6 @@ class Defaults():
             self.menuFrame.configure(bg ="dark slate gray")
 
       def newTaskScreen(self):
-      # to center the screen
             width = self.root.winfo_screenwidth()
             height = self.root.winfo_screenheight()
             x = int(width / 2 - 600 / 2)
@@ -79,9 +79,8 @@ class Screens():
       def __init__(self):
             pass
             
-      
+      # Validation for Registration
       def userRegistration(self):
-            
             self.db = UserDb()
             data = (self.regUserEntry.get(), self.regPassEntry.get())
 
@@ -89,34 +88,35 @@ class Screens():
                   self.regAlert.set("Enter Username First")
 
             elif self.regPassEntry.get() == "":
-                  self.regAlert.set("Alert!","Enter Password First")
+                  self.regAlert.set("Enter Password First")
                   
             elif self.regPass2Entry.get() == "":
-                  self.regAlert.set("Alert!","Enter Password First")
+                  self.regAlert.set("Enter Password First")
                   
             else:
                   if(self.regPassEntry.get() == self.regPass2Entry.get()):  
                         test = self.db.userRegistration(data, self.regUserEntry.get())
                         if not test:
-                              self.regAlert.set("Registration Successfully")            
-                              self.colorAlert.set('green')
+                              self.regAlert.set("Registration Successfully")
+                              colorAlert = "green"
+                              self.root.update()
                         else:
                               self.regAlert.set("Username already exist")
                               
                   else:
                         self.regAlert.set("Password do not match!")
                         
-      
+      # Validation for Login
       def userLogin(self):
             self.transition = Transitions(self.root)
             self.db = UserDb()
             data = (self.logUserEntry.get(), self.logPassEntry.get())
 
             if self.logUserEntry.get() == "":
-                  self.loginAlert.set("Enter Username First")
+                  self.logAlert.set("Enter Username First")
                   
             elif self.logPassEntry.get() == "":
-                  self.loginAlert.set("Enter Password First")
+                  self.logAlert.set("Enter Password First")
                   
             else:
                   test = self.db.userLogin(data)
@@ -126,27 +126,24 @@ class Screens():
                         self.transition.homeScreen()
                   else:
                         self.logAlert.set("Wrong username/password")
-                        
-                   
-
-
 
       # It calls all the images that can be used
       def imageUsed(self):
             self.logo = PhotoImage(file = "images\logo.png")
             self.pup = PhotoImage(file = "images\PUPLogo.png")
 
-      # It is the default logo frame for Start Page, Login Page, and Registration Page
+      # Default startlogo frame It is the default logo frame for Start Page, Login Page, and Registration Page
       def startPageLogoFrame(self):
             self.LogoFrame = Frame(self.root)
             self.LogoFrame.place(x=385, y=75)      
 
-      # It is the default middle frame for the Start Page, Login Page, and Registration Page
+      # Default startmiddle frame. It is the default middle frame for the Start Page, Login Page, and Registration Page
       def startPageOptionFrame(self):
             self.OptionFrame = Frame(self.root)
             self.OptionFrame.place(x=385, y=340)
             self.OptionFrame.configure(bg ="gray17")
       
+      # Default Frame for Homepage
       def homePageFrame(self):
             # Line Frame1
             self.lineFrame = Frame(self.root)
@@ -198,6 +195,7 @@ class Screens():
             self.contentRightFrame.place(x=50, y=120)
             self.contentRightFrame.configure(bg ="gray17")
 
+      # Default Frame for NewTaskPage
       def newTaskFrame(self):
             # Header Frame
             self.headerFrame = Frame(self.root)
@@ -285,8 +283,6 @@ class Screens():
             Label(self.OptionFrame, text = "Don't have an account yet?", bg = "gray17", fg = "white", font = (fontVar,"8")).pack(side=LEFT)
             Button(self.OptionFrame, text="Click here", bg = "gray17", fg = "steel blue", relief = "flat", font = (fontVar,"8"), command = self.transition.registrationScreen).pack(side=LEFT)
 
-                      
-      
       # Registration Page
       def registrationPage(self):
             self.root = Tk()
@@ -296,11 +292,8 @@ class Screens():
             self.startPageLogoFrame()
             self.startPageOptionFrame()
             self.imageUsed()
-
             self.regAlert = StringVar()
-            self.colorAlert = StringVar()
-            self.colorAlert.set('red')
-            
+
             
             # Showing Logo
             Logo = Label(self.LogoFrame, image=self.logo, bg = "gray17")
@@ -335,16 +328,14 @@ class Screens():
 
             # Message Alert
             #Label(self.OptionFrame, textvariable=self.regSuccess, bg = "gray17", font = (fontVar, "8")).pack()
-            Label(self.OptionFrame, textvariable=self.regAlert, bg = "gray17", fg = self.colorAlert.get() , font = (fontVar, "8")).pack()
+            self.alert = Label(self.OptionFrame, textvariable=self.regAlert, bg = "gray17", fg = colorAlert, font = (fontVar, "8")).pack()
 
             # To Login Window 
             Label(self.OptionFrame, "", bg = "gray17", width = 4).pack(side=LEFT)
             Label(self.OptionFrame, text = "Already have an account?", bg = "gray17", fg = "white", font = (fontVar,"8")).pack(side=LEFT)
             Button(self.OptionFrame, text="Click here", bg = "gray17", fg = "steel blue", relief = "flat", font = (fontVar,"8"), command = self.transition.loginScreen).pack(side=LEFT)
 
-
-            
-
+      # Home Page
       def homePage(self):
             self.root = Tk()
             self.default = Defaults(self.root)
@@ -364,6 +355,7 @@ class Screens():
             # Content of top right frame
             Tasks = Label(self.topRightFrame, text = "Exams", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
 
+      # New Task Page
       def newTaskPage(self):
             self.root = Tk()
             self.default = Defaults(self.root)
@@ -401,11 +393,11 @@ class Screens():
             # Details (Entry)
             Label(self.middleFrame, text = "Detail", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=200)
             Details = ScrolledText(self.middleFrame, font = (fontVar, "9"))
-            Details.place(x=25, y=225, height = 150, width = 550)
+            Details.place(x=25, y=225, height = 140, width = 550)
 
             # Cancel and Save (Button)
-            Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Cancel", bg = "gray80", fg = "gray10", font =(fontVar,"11")).place(x=25, y=383)
-            Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Save", width = 5, bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=525, y=383)
+            Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Cancel", bg = "gray80", fg = "gray10", font =(fontVar,"11")).place(x=25, y=379)
+            Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Save", width = 5, bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=525, y=379)
 
 app = Screens()
 app.startPage()
