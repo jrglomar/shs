@@ -2,6 +2,7 @@ from tkinter import *
 import mysql.connector
 from tkinter.scrolledtext import ScrolledText
 from db.database import *
+from tkcalendar import DateEntry
 
 fontVar = "Calibri"
 
@@ -51,16 +52,16 @@ class Transitions():
       def __init__(self, parent):
             self.root = parent
 
-      def loginScreen(self):
+      def loginScreen(self):      
             self.root.destroy()
             screen = Screens()
             screen.loginPage()
-            
+
       def registrationScreen(self):
             self.root.destroy()
             screen = Screens()
             screen.registrationPage()
-
+            
       def homeScreen(self):
             self.root.destroy()
             screen = Screens()
@@ -72,12 +73,21 @@ class Transitions():
 
       def destroyNewTask(self):
             self.root.destroy()
+      
+      def subjectScreen(self):      
+            self.root.destroy()
+            screen = Screens()
+            screen.subjectPage()
 
 
 class Screens():
       def __init__(self):
             pass
-            
+
+      # =========================================== VALIDATION =========================================== # 
+      # =========================================== VALIDATION =========================================== # 
+      # =========================================== VALIDATION =========================================== #       
+
       # Validation for Registration
       def userRegistration(self):
             self.db = UserDb()
@@ -140,8 +150,6 @@ class Screens():
             Title = self.Title.get()
             DueDate = self.DueDate.get()
             Details = self.Details.get('1.0', END)
-            
-            print(Type, Title, DueDate, Details)
 
             data = (Type, Title, DueDate, Details,
             )
@@ -158,8 +166,9 @@ class Screens():
                   self.db.newTask(data)
                   self.transition.destroyNewTask()
 
-
-
+      # =========================================== FRAMES =========================================== # 
+      # =========================================== FRAMES =========================================== # 
+      # =========================================== FRAMES =========================================== # 
 
       # It calls all the images that can be used
       def imageUsed(self):
@@ -246,6 +255,10 @@ class Screens():
             self.middleFrame = Frame(self.root)
             self.middleFrame.place(x=0, y=76, width = 600, height = 425)
             self.middleFrame.configure(bg = "gray20")            
+
+      # =========================================== PAGES =========================================== # 
+      # =========================================== PAGES =========================================== # 
+      # =========================================== PAGES =========================================== # 
 
       # Start page or default screen page
       def startPage(self):
@@ -399,20 +412,20 @@ class Screens():
             # Logo of menu frame
             Logo = Label(self.menuFrame, image = self.menuLogo, bg = "dark slate gray")
             Logo.image = self.menuLogo
-            Logo.place(x=5, y=5)
+            Logo.place(x=3, y=5)
 
             # Content of menu frame
             menuDashBoard = Button(self.menuFrame, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat")
             menuDashBoard.image = self.menuDashBoard
-            menuDashBoard.place(x=5, y=60, width=40, height=40)
+            menuDashBoard.place(x=9, y=65, width=30, height=30)
             
             menuTask = Button(self.menuFrame, image = self.menuTask, bg = "dark slate gray", relief = "flat")
             menuTask.image = self.menuTask
-            menuTask.place(x=5, y=100, width=40, height=40)
+            menuTask.place(x=9, y=115, width=30, height=30)
 
-            menuSubject = Button(self.menuFrame, image = self.menuSubject, bg = "dark slate gray", relief = "flat")
+            menuSubject = Button(self.menuFrame, command = self.transition.subjectScreen, image = self.menuSubject, bg = "dark slate gray", relief = "flat")
             menuSubject.image = self.menuSubject
-            menuSubject.place(x=4, y=140, width=40, height=40)
+            menuSubject.place(x=11, y=165, width=30, height=30)
  
       # New Task Page
       def newTaskPage(self):
@@ -425,9 +438,7 @@ class Screens():
 
             # Content of Middle Frame
             self.subjVar = StringVar(self.root)
-            self.subjVar.set("Subject 0")
             self.typeVar = StringVar(self.root)
-            self.typeVar.set("Task Type")
 
             # Subject OptionMenu (Dropdown)
             Label(self.middleFrame, text = "Subject", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=20)
@@ -437,7 +448,7 @@ class Screens():
             
             # Due Date
             Label(self.middleFrame, text = "Due Date", bg = "gray20", fg = "white", font = (fontVar,"10")).place(x=20, y=80)
-            self.DueDate = Entry(self.middleFrame)
+            self.DueDate = DateEntry(self.middleFrame, date_pattern = "y-mm-dd", foreground = "white", background = "steel blue")
             self.DueDate.place(x=25, y=105, height = 25)
 
             # Type OptionMenu (Dropdown)
@@ -459,6 +470,34 @@ class Screens():
             # Cancel and Save (Button)
             Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Cancel", bg = "gray80", fg = "gray10", font =(fontVar,"11")).place(x=25, y=379)
             Button(self.middleFrame, command = self.newTask, text = "Save", width = 5, bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=525, y=379)
+
+      # Create New Subject
+      def subjectPage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.default.defaultScreen()
+            self.transition = Transitions(self.root)
+            self.homePageFrame()
+            self.imageUsed()
+      
+            # Logo of menu frame
+            Logo = Label(self.menuFrame, image = self.menuLogo, bg = "dark slate gray")
+            Logo.image = self.menuLogo
+            Logo.place(x=3, y=5)
+
+            # Content of menu frame
+            menuDashBoard = Button(self.menuFrame, command = self.transition.homeScreen, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat")
+            menuDashBoard.image = self.menuDashBoard
+            menuDashBoard.place(x=9, y=65, width=30, height=30)
+            
+            menuTask = Button(self.menuFrame, image = self.menuTask, bg = "dark slate gray", relief = "flat")
+            menuTask.image = self.menuTask
+            menuTask.place(x=9, y=115, width=30, height=30)
+
+            menuSubject = Button(self.menuFrame, command = self.transition.subjectScreen, image = self.menuSubject, bg = "dark slate gray", relief = "flat")
+            menuSubject.image = self.menuSubject
+            menuSubject.place(x=11, y=165, width=30, height=30)
+
 
 app = Screens()
 app.startPage()
