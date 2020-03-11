@@ -3,6 +3,8 @@ import mysql.connector
 from tkinter.scrolledtext import ScrolledText
 from db.database import *
 from tkcalendar import DateEntry
+import datetime as dt
+from time import *
 
 fontVar = "Calibri"
 
@@ -87,6 +89,13 @@ class Screens():
       # =========================================== VALIDATION =========================================== # 
       # =========================================== VALIDATION =========================================== # 
       # =========================================== VALIDATION =========================================== #       
+
+      # Global Variables
+      def getDateToday(self):
+            self.x = dt.datetime.now()
+            self.mixed = (self.x.strftime("%A") + ", " + self.x.strftime("%B") + " " + self.x.strftime("%d"))
+            self.date = StringVar()
+            self.date.set(self.mixed)
 
       # Validation for Registration
       def userRegistration(self):
@@ -178,7 +187,9 @@ class Screens():
             self.menuDashBoard = PhotoImage(file = "images\menudashboard.png")
             self.menuTask = PhotoImage(file = "images\menutask.png")
             self.menuSubject = PhotoImage(file = "images\menusubject.png")
+            self.menuProgress = PhotoImage(file = "images\menuprogress.png")
 
+      
       # Default startlogo frame It is the default logo frame for Start Page, Login Page, and Registration Page
       def startPageLogoFrame(self):
             self.LogoFrame = Frame(self.root)
@@ -194,12 +205,12 @@ class Screens():
       def homePageFrame(self):
             # Line Frame1
             self.lineFrame = Frame(self.root)
-            self.lineFrame.place(x=358, y=0, height = 720, width=2)
+            self.lineFrame.place(x=408, y=0, height = 720, width=2)
             self.lineFrame.configure(bg = "gray20")
 
             # Line Frame2
             self.lineFrame2 = Frame(self.root)
-            self.lineFrame2.place(x=716, y=0, height = 720, width=2)
+            self.lineFrame2.place(x=766, y=0, height = 720, width=2)
             self.lineFrame2.configure(bg = "gray20")
 
             # Header Frame 
@@ -209,37 +220,37 @@ class Screens():
 
             # Top left Frame
             self.topLeftFrame = Frame(self.root)
-            self.topLeftFrame.place(x=50, y=0, width=358 ,height = 120)
+            self.topLeftFrame.place(x=100, y=0, width=408 ,height = 120)
             self.topLeftFrame.configure(bg = "gray20")
 
             # Top middle Frame
             self.topMiddleFrame = Frame(self.root)
-            self.topMiddleFrame.place(x=360, y=0, width=358 ,height = 120)
+            self.topMiddleFrame.place(x=410, y=0, width=408 ,height = 120)
             self.topMiddleFrame.configure(bg = "gray20")
 
             # Top right Frame
             self.topRightFrame = Frame(self.root)
-            self.topRightFrame.place(x=720, y=0, width=358 ,height = 120)
+            self.topRightFrame.place(x=770, y=0, width=408 ,height = 120)
             self.topRightFrame.configure(bg = "gray20")
 
             # Menu Frame
             self.menuFrame = Frame(self.root)
-            self.menuFrame.place(x=0, y=0, height = 720, width=50)
+            self.menuFrame.place(x=0, y=0, height = 720, width=100)
             self.menuFrame.configure(bg ="dark slate gray")
 
             # Content Left Frame
             self.contentLeftFrame = Frame(self.root)
-            self.contentLeftFrame.place(x=50, y=120)
+            self.contentLeftFrame.place(x=100, y=120)
             self.contentLeftFrame.configure(bg ="gray17")
 
             # Content Middle Frame
             self.contentMiddleFrame = Frame(self.root)
-            self.contentMiddleFrame.place(x=50, y=120)
+            self.contentMiddleFrame.place(x=410, y=120)
             self.contentMiddleFrame.configure(bg ="gray17")
 
             # Content Right Frame
             self.contentRightFrame = Frame(self.root)
-            self.contentRightFrame.place(x=50, y=120)
+            self.contentRightFrame.place(x=770, y=120)
             self.contentRightFrame.configure(bg ="gray17")
 
       # Default Frame for NewTaskPage
@@ -397,35 +408,41 @@ class Screens():
             self.default.defaultScreen()
             self.homePageFrame()
             self.imageUsed()
+            self.getDateToday()
+            
 
             # Content of top left frame
             Today = Label(self.topLeftFrame, text = "Today", bg = "gray20", fg = "white", font = (fontVar, "18", "bold")).place(x = 20, y = 30)
-            DateToday = Label(self.topLeftFrame, text = "Day, Month 0", bg = "gray20", fg = "white", font = (fontVar,"14")).place(x = 20, y = 60)
+            DayToday = Label(self.topLeftFrame, textvariable = self.date, bg = "gray20", fg = "white", font = (fontVar,"12")).place(x = 21, y = 60)
 
             # Content of top middle frame
             Tasks = Label(self.topMiddleFrame, text = "Tasks", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
-            NewTask = Button(self.topMiddleFrame, command = self.transition.newTaskScreen, text = "New Task +", bg = "steel blue", fg = "white", font = (fontVar,"12", "bold"), relief = "raised").place(x = 20, y = 65)
+            NewTask = Button(self.topMiddleFrame, command = self.transition.newTaskScreen, text = "New Task +", bg = "steel blue", fg = "white", font = (fontVar,"12", "bold"), relief = "raised").place(x = 20, y = 65, height = 25)
 
             # Content of top right frame
             Tasks = Label(self.topRightFrame, text = "Exams", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
 
             # Logo of menu frame
-            Logo = Label(self.menuFrame, image = self.menuLogo, bg = "dark slate gray")
+            Logo = Label(self.menuFrame, image = self.menuLogo, bg = "snow")
             Logo.image = self.menuLogo
-            Logo.place(x=3, y=5)
+            Logo.place(x=0, y=0, width = 100, height = 120)
 
             # Content of menu frame
-            menuDashBoard = Button(self.menuFrame, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat")
+            menuDashBoard = Button(self.menuFrame, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuDashBoard.image = self.menuDashBoard
-            menuDashBoard.place(x=9, y=65, width=30, height=30)
+            menuDashBoard.place(x=29, y=150, width=40, height=40)
             
-            menuTask = Button(self.menuFrame, image = self.menuTask, bg = "dark slate gray", relief = "flat")
+            menuTask = Button(self.menuFrame, image = self.menuTask, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuTask.image = self.menuTask
-            menuTask.place(x=9, y=115, width=30, height=30)
+            menuTask.place(x=29, y=210, width=40, height=40)
 
-            menuSubject = Button(self.menuFrame, command = self.transition.subjectScreen, image = self.menuSubject, bg = "dark slate gray", relief = "flat")
+            menuSubject = Button(self.menuFrame, command = self.transition.subjectScreen, image = self.menuSubject, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuSubject.image = self.menuSubject
-            menuSubject.place(x=11, y=165, width=30, height=30)
+            menuSubject.place(x=29, y=270, width=40, height=40)
+
+            menuProgress = Button(self.menuFrame, image = self.menuProgress, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
+            menuProgress.image = self.menuProgress
+            menuProgress.place(x=29, y=330, width=40, height=40)
  
       # New Task Page
       def newTaskPage(self):
@@ -480,23 +497,6 @@ class Screens():
             self.homePageFrame()
             self.imageUsed()
       
-            # Logo of menu frame
-            Logo = Label(self.menuFrame, image = self.menuLogo, bg = "dark slate gray")
-            Logo.image = self.menuLogo
-            Logo.place(x=3, y=5)
-
-            # Content of menu frame
-            menuDashBoard = Button(self.menuFrame, command = self.transition.homeScreen, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat")
-            menuDashBoard.image = self.menuDashBoard
-            menuDashBoard.place(x=9, y=65, width=30, height=30)
-            
-            menuTask = Button(self.menuFrame, image = self.menuTask, bg = "dark slate gray", relief = "flat")
-            menuTask.image = self.menuTask
-            menuTask.place(x=9, y=115, width=30, height=30)
-
-            menuSubject = Button(self.menuFrame, command = self.transition.subjectScreen, image = self.menuSubject, bg = "dark slate gray", relief = "flat")
-            menuSubject.image = self.menuSubject
-            menuSubject.place(x=11, y=165, width=30, height=30)
 
 
 app = Screens()
