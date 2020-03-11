@@ -423,26 +423,26 @@ class Screens():
             Tasks = Label(self.topRightFrame, text = "Exams", bg = "gray20", fg = "white", font = (fontVar,"18", "bold")).place(x = 20, y = 30)
 
             # Logo of menu frame
-            Logo = Label(self.menuFrame, image = self.menuLogo, bg = "snow")
+            Logo = Label(self.menuFrame, image = self.menuLogo, bg = "dark slate gray")
             Logo.image = self.menuLogo
-            Logo.place(x=0, y=0, width = 100, height = 120)
+            Logo.place(x=0, y=20, width = 100)
 
             # Content of menu frame
             menuDashBoard = Button(self.menuFrame, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuDashBoard.image = self.menuDashBoard
-            menuDashBoard.place(x=29, y=150, width=40, height=40)
+            menuDashBoard.place(x=29, y=140, width=40, height=40)
             
             menuTask = Button(self.menuFrame, image = self.menuTask, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuTask.image = self.menuTask
-            menuTask.place(x=29, y=210, width=40, height=40)
+            menuTask.place(x=29, y=200, width=40, height=40)
 
             menuSubject = Button(self.menuFrame, command = self.transition.subjectScreen, image = self.menuSubject, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuSubject.image = self.menuSubject
-            menuSubject.place(x=29, y=270, width=40, height=40)
+            menuSubject.place(x=29, y=260, width=40, height=40)
 
             menuProgress = Button(self.menuFrame, image = self.menuProgress, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuProgress.image = self.menuProgress
-            menuProgress.place(x=29, y=330, width=40, height=40)
+            menuProgress.place(x=29, y=320, width=40, height=40)
  
       # New Task Page
       def newTaskPage(self):
