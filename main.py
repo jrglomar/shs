@@ -47,8 +47,7 @@ class Defaults():
             self.root.configure(bg = "gray20")
 
             # disable resize of the window
-            self.root.resizable(width=False, height=False) 
-
+            self.root.resizable(width=False, height=False)
 
 class Transitions():
       def __init__(self, parent):
@@ -80,7 +79,23 @@ class Transitions():
             self.root.destroy()
             screen = Screens()
             screen.subjectPage()
+      
+      def progressScreen(self):
+            self.root.destroy()
+            screen = Screens()
+            screen.progressPage()
 
+      def taskScreen(self):
+            self.root.destroy()
+            screen = Screens()
+            screen.taskPage()
+
+      def newSettingsScreen(self):
+            screen = Screens()
+            screen.newSettingsPage()
+
+      def destroyNewSetting(self):
+            self.root.destroy()
 
 class Screens():
       def __init__(self):
@@ -188,8 +203,8 @@ class Screens():
             self.menuTask = PhotoImage(file = "images\menutask.png")
             self.menuSubject = PhotoImage(file = "images\menusubject.png")
             self.menuProgress = PhotoImage(file = "images\menuprogress.png")
-
-      
+            self.menuSettings = PhotoImage(file = "images\menusettings.png")
+  
       # Default startlogo frame It is the default logo frame for Start Page, Login Page, and Registration Page
       def startPageLogoFrame(self):
             self.LogoFrame = Frame(self.root)
@@ -220,37 +235,37 @@ class Screens():
 
             # Top left Frame
             self.topLeftFrame = Frame(self.root)
-            self.topLeftFrame.place(x=100, y=0, width=408 ,height = 120)
+            self.topLeftFrame.place(x=108, y=0, width=408 ,height = 120)
             self.topLeftFrame.configure(bg = "gray20")
 
             # Top middle Frame
             self.topMiddleFrame = Frame(self.root)
-            self.topMiddleFrame.place(x=410, y=0, width=408 ,height = 120)
+            self.topMiddleFrame.place(x=418, y=0, width=408 ,height = 120)
             self.topMiddleFrame.configure(bg = "gray20")
 
             # Top right Frame
             self.topRightFrame = Frame(self.root)
-            self.topRightFrame.place(x=770, y=0, width=408 ,height = 120)
+            self.topRightFrame.place(x=778, y=0, width=408 ,height = 120)
             self.topRightFrame.configure(bg = "gray20")
 
             # Menu Frame
             self.menuFrame = Frame(self.root)
-            self.menuFrame.place(x=0, y=0, height = 720, width=100)
+            self.menuFrame.place(x=0, y=0, height = 720, width=108)
             self.menuFrame.configure(bg ="dark slate gray")
 
             # Content Left Frame
             self.contentLeftFrame = Frame(self.root)
-            self.contentLeftFrame.place(x=100, y=120)
+            self.contentLeftFrame.place(x=108, y=120)
             self.contentLeftFrame.configure(bg ="gray17")
 
             # Content Middle Frame
             self.contentMiddleFrame = Frame(self.root)
-            self.contentMiddleFrame.place(x=410, y=120)
+            self.contentMiddleFrame.place(x=418, y=120)
             self.contentMiddleFrame.configure(bg ="gray17")
 
             # Content Right Frame
             self.contentRightFrame = Frame(self.root)
-            self.contentRightFrame.place(x=770, y=120)
+            self.contentRightFrame.place(x=778, y=120)
             self.contentRightFrame.configure(bg ="gray17")
 
       # Default Frame for NewTaskPage
@@ -425,24 +440,33 @@ class Screens():
             # Logo of menu frame
             Logo = Label(self.menuFrame, image = self.menuLogo, bg = "dark slate gray")
             Logo.image = self.menuLogo
-            Logo.place(x=0, y=20, width = 100)
+            Logo.place(x=0, y=20, width = 108)
 
             # Content of menu frame
-            menuDashBoard = Button(self.menuFrame, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
+            menuDashBoard = Button(self.menuFrame, command = self.transition.homeScreen, image = self.menuDashBoard, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuDashBoard.image = self.menuDashBoard
-            menuDashBoard.place(x=29, y=140, width=40, height=40)
+            menuDashBoard.place(x=8, y=140, width=40, height=40)
+            Button(self.menuFrame, text ="Home", command = self.transition.homeScreen, bg = "dark slate gray", fg = "white", font= (fontVar, "9", "bold"), relief = "flat", activebackground="dark slate gray").place(x=49, y= 148)
             
-            menuTask = Button(self.menuFrame, image = self.menuTask, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
+            menuTask = Button(self.menuFrame, command = self.transition.taskScreen, image = self.menuTask, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuTask.image = self.menuTask
-            menuTask.place(x=29, y=200, width=40, height=40)
+            menuTask.place(x=8, y=200, width=40, height=40)
+            Button(self.menuFrame, text ="Tasks", command = self.transition.taskScreen, bg = "dark slate gray", fg = "white", font= (fontVar, "9", "bold"), relief = "flat", activebackground="dark slate gray").place(x=49, y= 208)
 
             menuSubject = Button(self.menuFrame, command = self.transition.subjectScreen, image = self.menuSubject, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuSubject.image = self.menuSubject
-            menuSubject.place(x=29, y=260, width=40, height=40)
+            menuSubject.place(x=8, y=260, width=40, height=40)
+            Button(self.menuFrame, text ="Subjects", command = self.transition.subjectScreen, bg = "dark slate gray", fg = "white", font= (fontVar, "9", "bold"), relief = "flat", activebackground="dark slate gray").place(x=49, y= 268)
 
-            menuProgress = Button(self.menuFrame, image = self.menuProgress, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
+            menuProgress = Button(self.menuFrame, command = self.transition.progressScreen, image = self.menuProgress, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
             menuProgress.image = self.menuProgress
-            menuProgress.place(x=29, y=320, width=40, height=40)
+            menuProgress.place(x=8, y=320, width=40, height=40)
+            Button(self.menuFrame, text ="Progress", command = self.transition.progressScreen, bg = "dark slate gray", fg = "white", font= (fontVar, "9", "bold"), relief = "flat", activebackground="dark slate gray").place(x=49, y= 328)
+
+            menuSettings = Button(self.menuFrame, command = self.transition.progressScreen, image = self.menuSettings, bg = "dark slate gray", relief = "flat", activebackground="dark slate gray")
+            menuSettings.image = self.menuSettings
+            menuSettings.place(x=8, y=670, width=40, height=40)
+            Button(self.menuFrame, text ="Settings", command = self.transition.newSettingsScreen, bg = "dark slate gray", fg = "white", font= (fontVar, "9", "bold"), relief = "flat", activebackground="dark slate gray").place(x=49, y= 678)
  
       # New Task Page
       def newTaskPage(self):
@@ -488,7 +512,15 @@ class Screens():
             Button(self.middleFrame, command = self.transition.destroyNewTask, text = "Cancel", bg = "gray80", fg = "gray10", font =(fontVar,"11")).place(x=25, y=379)
             Button(self.middleFrame, command = self.newTask, text = "Save", width = 5, bg = "steel blue", fg = "white", font =(fontVar,"11")).place(x=525, y=379)
 
-      # Create New Subject
+      def taskPage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.default.defaultScreen()
+            self.transition = Transitions(self.root)
+            self.homePageFrame()
+            self.imageUsed()
+
+      # New Subject Page
       def subjectPage(self):
             self.root = Tk()
             self.default = Defaults(self.root)
@@ -497,6 +529,21 @@ class Screens():
             self.homePageFrame()
             self.imageUsed()
       
+      def progressPage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.default.defaultScreen()
+            self.transition = Transitions(self.root)
+            self.homePageFrame()
+            self.imageUsed()
+
+      def newSettingsPage(self):
+            self.root = Tk()
+            self.default = Defaults(self.root)
+            self.default.newTaskScreen()            
+            self.transition = Transitions(self.root)
+            self.imageUsed()
+            self.root.title("Settings")
 
 
 app = Screens()
