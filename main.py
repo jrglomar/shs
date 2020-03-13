@@ -153,7 +153,7 @@ class Screens():
 
             if self.logUserEntry.get() == "":
                   self.logAlert.set("Enter Username First")
-                  
+                  ZZ
             elif self.logPassEntry.get() == "":
                   self.logAlert.set("Enter Password First")
                   
